@@ -1,12 +1,23 @@
-export class Contract {
-  id: string;
-  providerDocument: string;
-  name: string;
-  serviceDescription: string;
-  term: ContractTerm;
-}
+import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import { ContractTerm } from "./contract.term";
+import { Provider } from "./provider";
 
-class ContractTerm {
-  startDate: string;
-  endDate: string;
+@Entity()
+export class Contract {
+  @PrimaryGeneratedColumn()
+  id: string;
+
+  @OneToOne(type => Provider, {cascade: ["insert", "update", "remove", "soft-remove", "recover"]})
+  @JoinColumn()
+  provider: Provider;
+
+  @Column()
+  name: string;
+
+  @Column()
+  serviceDescription: string;
+  
+  @OneToOne(type => ContractTerm, {cascade: ["insert", "update", "remove", "soft-remove", "recover"]})
+  @JoinColumn()
+  term: ContractTerm;
 }

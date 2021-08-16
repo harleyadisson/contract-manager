@@ -21,15 +21,14 @@ contract.post('/', express.json(), (req: Request, response: Response) => {
      .then(id => {
         response.status(200).send(id);
      })
-     .catch(err => response.status(500).send(err))
-     
+     .catch(err => {
+        response.status(500).send(err)})
     } catch (error) {
         response.status(403).send("Digite novamente o número de Identificação")
     }
 })
 
 contract.put('/', express.json(), (req: Request, response: Response) => {
-    console.log(req.body)
     try {
         editContract(req.body)
         response.status(200).send("Editado com sucesso")

@@ -1,79 +1,79 @@
 import { Contract } from '../domain/contract';
-import { contractList } from '../infraestructure/mock/contract.list';
-import { getProviderRepository } from './provider.repository';
-import uniqid from 'uniqid';
-import { exception } from 'console';
-import contract from '../controller/contract.controller';
+import { parseContract } from '../domain/object.parser';
+import Database from '../infraestructure/database/database-connection';
 
 const getContractRepository = (id: string) => {
     return new Promise<Contract>((resolve, reject) => {
-    const result = contractList.find(fcontract => fcontract.id == id)
-    if (result != null)
-        resolve(result)
-    reject('Contrato não encontrado')
+        Database.getInstance().getConnection().getRepository(Contract).findOneOrFail({ relations: ["provider", "term"] })
+            .then(contract => {
+                resolve(contract)
+            }).catch(err => reject(err))
     });
 }
 
 const getAllContractsRepository = () => {
     return new Promise<Array<Contract>>((resolve, reject) => {
-        resolve (contractList)
+        Database.getInstance().getConnection().getRepository(Contract).find({ relations: ["provider", "term"] })
+            .then(allContracts => {
+                resolve(allContracts)
+            }).catch(err => reject(err))
     });
 }
 
 const addContractRepository = (contract: Contract) => {
     return new Promise<string>((resolve, reject) => {
-        getProviderRepository(contract.providerDocument)
-        .then(() => {
-            contract.id = uniqid();
-            contractList.push(contract)
-            resolve(contract.id)
-        })
-        .catch(err => reject(err))
+
+        try {
+            Database.getInstance().getConnection().getRepository(Contract).save(parseContract(contract))
+            .then(contract => {
+                resolve(contract.id.toString())
+            }).catch(err => {
+                reject(err)
+            })
+        } catch (error) {
+            console.log(error)   
+        }
         
     });
 }
 
 const deleteContractRepository = (id: string) => {
-    let contractPosition: number = 0;
-    let position: number = -1;
-
-    for(let contract of contractList) {
-        if(id == contract.id) {
-            position = contractPosition;
-            break;
-        }
-        contractPosition += 1 
-    }
-
-    if(position != -1)
-        contractList.splice(contractPosition, contractPosition + 1)
-    else
-        throw new exception
+    return new Promise<string>((resolve, reject) => {
+        Database.getInstance().getConnection().getRepository(Contract).delete({ "id": id })
+            .then(data => {
+                resolve(data.toString())
+            }).catch(err => reject(err))
+    });
 }
 
-const editContractRepository = async (contract: Contract) => {
-    let contractPosition: number = 0;
-    let position: number = -1;
+const editContractRepository = (contract: Contract) => {
+    return new Promise<string>(async (resolve, reject) => {
+        try {
 
-    for(let selectedContract of contractList) {
-        if(selectedContract.id == contract.id) {
-            position = contractPosition;
-            break;
+            let contractRetrieved = await getContractRepository(contract.id)
+
+            contractRetrieved.name = contract.name
+            contractRetrieved.serviceDescription = contractRetrieved.serviceDescription
+
+            Database.getInstance().getConnection().getRepository(Contract).save(contractRetrieved)
+                .then(data => {
+                    resolve(contract.id)
+                })
+                .catch(error => {
+                    reject(`Já existe um prestador de serviço cadastrado no Documento`)
+                }
+                )
+
+        } catch (error) {
+            reject(`Já existe um prestador de serviço cadastrado no Documento: ${contract.id}`)
         }
-        contractPosition += 1 
-    }
-
-    if (position != -1) {
-        contractList.splice(contractPosition, contractPosition + 1)
-        contractList.push(contract);
-    } else {
-        throw new exception
-    }    
+    });
 }
 
 export {
-    getContractRepository, 
-    getAllContractsRepository, 
-    addContractRepository, 
+    getContractRepository,
+    getAllContractsRepository,
+    addContractRepository,
     deleteContractRepository,
-    editContractRepository}
+    editContractRepository
+}

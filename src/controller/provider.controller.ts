@@ -49,7 +49,6 @@ provider.get('/:document', (req: Request, response: Response) => {
 })
 
 provider.put('/', express.json(), (req: Request, response: Response) => {
-    console.log(req.body)
     try {
         editProvider(req.body)
         response.status(200).send("Editado com sucesso")

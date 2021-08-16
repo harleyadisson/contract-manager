@@ -7,7 +7,7 @@ const getAddress = (cep: string) => {
         fetch(url)
         .then(data => {return data.json()})
         .then(address => {
-            resolve(address)
+           resolve(address)
         })
         .catch(err => {
             reject(err)

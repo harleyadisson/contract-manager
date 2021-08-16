@@ -1,8 +1,15 @@
 {
-    "compilerOptions": {
-      "module": "commonjs",
-      "target": "ES2021",
-      "rootDir": "./",
-      "esModuleInterop": true
-    }
-  }
+  "compilerOptions": {
+    "lib": [
+      "es5",
+      "es6"
+   ],
+    "module": "commonjs",
+    "target": "ES2021",
+    "rootDir": "./",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true
+  },
+}

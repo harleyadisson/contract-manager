@@ -6,6 +6,7 @@ const contract: Contract = {
     providerDocument: '0842567092876',
     serviceDescription: 'Desenvolvimento de sites',
    term: {
+       id: '123',
        startDate: '10/08/2021',
        endDate: '10/08/2022'
    }
@@ -17,6 +18,7 @@ const contract2: Contract = {
     providerDocument: '0842567092876',
     serviceDescription: 'Desenvolvimento de sites',
    term: {
+       id: '123',
        startDate: '10/08/2021',
        endDate: '10/08/2022'
    }

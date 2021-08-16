@@ -1,12 +1,37 @@
+import { Entity, PrimaryGeneratedColumn, Column, } from "typeorm";
+
+@Entity()
 export class Address {
-    cep: string;
-    logradouro: string;
-    complemento: string;
-    bairro: string;
-    localidade: string;
-    uf: string;
-    ibge: string;
-    gia: string;
-    ddd: string;
-    siafi: string;
-  }
+  @PrimaryGeneratedColumn()
+  id: string
+
+  @Column()
+  cep: string;
+
+  @Column()
+  logradouro: string;
+
+  @Column()
+  complemento: string;
+
+  @Column()
+  bairro: string;
+
+  @Column()
+  localidade: string;
+
+  @Column()
+  uf: string;
+
+  @Column()
+  ibge: string;
+
+  @Column()
+  gia: string;
+
+  @Column()
+  ddd: string;
+
+  @Column()
+  siafi: string;
+}

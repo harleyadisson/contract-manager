@@ -1,6 +1,5 @@
 import { Provider } from '../domain/provider'
 import { addProviderRepository, deleteProviderRepository, editProviderRepository, getAllProvidersRepository, getProviderRepository } from '../repository/provider.repository';
-import { exception } from 'console';
 
     const getProvider = (document: string) => {
         return new Promise<Provider>((resolve, reject) => {
@@ -32,15 +31,15 @@ import { exception } from 'console';
         try {
             deleteProviderRepository(id);
         } catch (error) {
-            throw new exception
+            throw new Error(error.message);
         }
     }
 
     const editProvider = (contract: Provider) => {
         try {
-            editProviderRepository(contract);
+            editProviderRepository(contract)
         } catch (error) {
-            throw new exception
+            throw new Error(error.message);
         }
     }
 

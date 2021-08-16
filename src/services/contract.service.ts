@@ -1,5 +1,3 @@
-import { throws } from 'assert';
-import { exception } from 'console';
 import { Contract } from '../domain/contract';
 import { 
     getContractRepository, 
@@ -38,7 +36,7 @@ import {
         try {
             deleteContractRepository(id);
         } catch (error) {
-            throw new exception
+            throw new Error(error.message)
         }
     }
 
@@ -46,7 +44,7 @@ import {
         try {
             editContractRepository(contract);
         } catch (error) {
-            throw new exception
+            throw new Error(error.message)
         }
     }
 
