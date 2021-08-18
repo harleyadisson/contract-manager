@@ -1,4 +1,4 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { ContractTerm } from "./contract.term";
 import { Provider } from "./provider";
 
@@ -7,7 +7,7 @@ export class Contract {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @OneToOne(type => Provider, {cascade: ["insert", "update", "remove", "soft-remove", "recover"]})
+  @ManyToOne(type => Provider, {cascade: ["insert", "update", "recover"]})
   @JoinColumn()
   provider: Provider;
 
