@@ -9,8 +9,8 @@ export class Provider {
     @Column()
     providerType: ProviderType
 
-    @PrimaryColumn()
-    document: string;
+    @PrimaryColumn({type: 'text',nullable: false})
+    document!: string;
 
     @Column()
     name: string;

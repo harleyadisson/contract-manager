@@ -8,6 +8,7 @@ const parseAddress = (address: any): Address => {
   convertedAddress.id = address.id
   convertedAddress.cep = address.cep
   convertedAddress.logradouro = address.logradouro
+  convertedAddress.numero = address.numero
   convertedAddress.complemento = address.complemento
   convertedAddress.bairro = address.bairro
   convertedAddress.localidade = address.localidade

@@ -15,6 +15,9 @@ export class Address {
   complemento: string;
 
   @Column()
+  numero: string;
+
+  @Column()
   bairro: string;
 
   @Column()

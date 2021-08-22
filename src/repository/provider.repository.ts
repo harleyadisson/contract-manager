@@ -44,7 +44,8 @@ const addProviderRepository = (provider: Provider) => {
 
             Database.getInstance().getConnection().getRepository(Provider).save(parseProvider(provider))
                 .then(data => {
-                    resolve(data.toString())
+                    console.log(data)
+                    resolve(data.document.toString())
                 })
                 .catch(() => {
                     reject(`Já existe um prestador de serviço cadastrado no Documento`)
