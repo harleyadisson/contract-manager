@@ -34,7 +34,12 @@ import {
 
     const deleteContract = (id: string) => {
         try {
-            deleteContractRepository(id);
+            deleteContractRepository(id)
+            .then(response => {
+
+            }).catch(err => {
+                throw new Error(err.message)
+            })
         } catch (error) {
             throw new Error(error.message)
         }
@@ -42,7 +47,7 @@ import {
 
     const editContract = (contract: Contract) => {
         try {
-            editContractRepository(contract);
+            editContractRepository(contract)
         } catch (error) {
             throw new Error(error.message)
         }

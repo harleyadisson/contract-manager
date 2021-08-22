@@ -1,17 +1,15 @@
 import { Address } from "./address";
 import { ProviderType } from "./provider.type";
-import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, PrimaryColumn } from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, PrimaryColumn, OneToMany } from "typeorm";
+import { Contract } from "./contract";
 
 @Entity()
 export class Provider {
 
-    @PrimaryGeneratedColumn()
-    id: string;
-
     @Column()
     providerType: ProviderType
 
-    @Column({ unique: true })
+    @PrimaryColumn()
     document: string;
 
     @Column()
@@ -23,4 +21,7 @@ export class Provider {
     @OneToOne(type => Address, {cascade: ["insert", "update", "remove", "soft-remove", "recover"]})
     @JoinColumn()
     address: Address;
+
+    @OneToMany(type => Contract, provider => Provider)
+    contracts: Contract[];
   }

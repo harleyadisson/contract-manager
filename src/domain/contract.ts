@@ -4,11 +4,10 @@ import { Provider } from "./provider";
 
 @Entity()
 export class Contract {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(type => Provider, {cascade: ["insert", "update", "recover"]})
-  @JoinColumn()
+  @ManyToOne(type => Provider, contracts => Contract, {eager: true})
   provider: Provider;
 
   @Column()

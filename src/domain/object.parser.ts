@@ -5,6 +5,7 @@ import { ContractTerm } from "./contract.term"
 
 const parseAddress = (address: any): Address => {
   let convertedAddress = new Address()
+  convertedAddress.id = address.id
   convertedAddress.cep = address.cep
   convertedAddress.logradouro = address.logradouro
   convertedAddress.complemento = address.complemento
@@ -20,12 +21,12 @@ const parseAddress = (address: any): Address => {
 }
 
 const parseProvider = (provider: any): Provider => {
-
   let convertedProvider = new Provider()
   convertedProvider.providerType = provider.providerType
   convertedProvider.document = provider.document
   convertedProvider.name = provider.name
   convertedProvider.email = provider.email
+  convertedProvider.contracts = provider.contracts
 
   if(provider.address)
     convertedProvider.address = parseAddress(provider.address)
@@ -35,22 +36,23 @@ const parseProvider = (provider: any): Provider => {
 
 const parseTerm = (term: any): ContractTerm => {
   let convertedTerm =  new ContractTerm()
-
+  convertedTerm.id = term.id
   convertedTerm.startDate = term.startDate
   convertedTerm.endDate = term.endDate
 
   return convertedTerm
 }
 const parseContract = (contract: any): Contract => {
-
   let convertedContract = new Contract()
-
+  convertedContract.id = contract.id
   convertedContract.name = contract.name
+  convertedContract.serviceDescription = contract.serviceDescription
 
   if(contract.provider)
     convertedContract.provider = parseProvider(contract.provider)
-  convertedContract.serviceDescription = contract.serviceDescription
-  convertedContract.term = parseTerm(contract.term)
+
+  if(contract.term)
+    convertedContract.term = parseTerm(contract.term)
 
   return convertedContract
 }

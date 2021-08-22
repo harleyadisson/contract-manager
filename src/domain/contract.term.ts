@@ -2,7 +2,7 @@ import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typ
 
 @Entity()
 export class ContractTerm {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string
  
   @Column()

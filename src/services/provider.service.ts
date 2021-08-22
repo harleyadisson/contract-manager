@@ -20,16 +20,16 @@ import { addProviderRepository, deleteProviderRepository, editProviderRepository
     const addProvider = (provider: Provider) => {
         return new Promise<string>((resolve, reject) => {
             addProviderRepository(provider)
-            .then(id => {
-                resolve(id)
+            .then(document => {
+                resolve(document)
             })
             .catch(err => reject(err))
         });
     }
 
-    const deleteProvider = (id: string) => {
+    const deleteProvider = (document: string) => {
         try {
-            deleteProviderRepository(id);
+            deleteProviderRepository(document);
         } catch (error) {
             throw new Error(error.message);
         }

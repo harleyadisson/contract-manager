@@ -10,10 +10,11 @@ const getProviderRepository = (document: string) => {
                 .then(data => {
                     resolve(data)
                 })
-                .catch(() => {
-                    reject(`Nenhum provider encontrado`)
+                .catch((err) => {
+                    reject(`Nenhum provider encontrado ${err}` )
                 })
         } catch (error) {
+            console.error(error)
             reject(`Erro ao recuperar prestadores de serviço: ${error}`)
         }
     });
@@ -37,11 +38,17 @@ const getAllProvidersRepository = () => {
 }
 
 const addProviderRepository = (provider: Provider) => {
-    return new Promise<string>(async (resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
         try {
+
+            getProviderRepository(provider.document)
+            .then(() => {
+                reject(`Erro ao cadastrar provider: ${provider.document}`)
+            });
+
             Database.getInstance().getConnection().getRepository(Provider).save(parseProvider(provider))
                 .then(data => {
-                    resolve(data.id.toString())
+                    resolve(data.toString())
                 })
                 .catch(() => {
                     reject(`Já existe um prestador de serviço cadastrado no Documento`)
@@ -55,16 +62,16 @@ const addProviderRepository = (provider: Provider) => {
 const deleteProviderRepository = (id: string) => {
     return new Promise<string>((resolve, reject) => {
         try {
-            Database.getInstance().getConnection().getRepository(Provider).delete({ "id": id })
+            Database.getInstance().getConnection().getRepository(Provider).delete({ "document": id })
                 .then(data => {
                     resolve(data.toString())
                 })
                 .catch(() => {
-                    reject(`Já existe um prestador de serviço cadastrado no Documento`)
+                    reject(`Esse prestador tem contratos ativos, remova-o dos contratos primeiro`)
                 })
 
         } catch (error) {
-            reject(`Já existe um prestador de serviço cadastrado no Documento:`)
+            reject(`Esse prestador tem contratos ativos, remova-o dos contratos primeiro${error}`)
         }
     });
 }
@@ -85,7 +92,7 @@ const editProviderRepository = (provider: Provider) => {
             Database.getInstance().getConnection().getRepository(Provider).save(providerRetrieved)
                 .then(data => {
 
-                    resolve(provider.id)
+                    resolve(provider.document)
 
                 })
                 .catch(error => {
