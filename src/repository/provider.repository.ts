@@ -38,13 +38,9 @@ const getAllProvidersRepository = () => {
 }
 
 const addProviderRepository = (provider: Provider) => {
-    return new Promise<string>((resolve, reject) => {
+    return new Promise<string>( (resolve, reject) => {
         try {
-
-            getProviderRepository(provider.document)
-            .then(() => {
-                reject(`Erro ao cadastrar provider: ${provider.document}`)
-            });
+            console.log(provider)
 
             Database.getInstance().getConnection().getRepository(Provider).save(parseProvider(provider))
                 .then(data => {

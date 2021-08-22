@@ -16,7 +16,7 @@ export class Contract {
   @Column()
   serviceDescription: string;
   
-  @OneToOne(type => ContractTerm, {cascade: ["insert", "update", "remove", "soft-remove", "recover"]})
+  @OneToOne(type => ContractTerm, {cascade: ["insert", "update", "remove", "soft-remove", "recover"], eager: true})
   @JoinColumn()
   term: ContractTerm;
 }
